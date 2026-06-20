@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: anti-social-documental-api
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - X_MESES=6
+      - MONGO_URI=mongodb://mongodb:27017/anti-social
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:latest
+    container_name: anti-social-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo-data:

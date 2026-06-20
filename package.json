@@ -2,13 +2,23 @@
   "name": "anti-social",
   "version": "1.0.0",
   "description": "UnaHur anti-social net - Trabajo Práctico",
-  "main": "index.js",
+  "main": "src/main.js",
   "scripts": {
     "dev": "nodemon src/main.js",
+    "start": "node src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gerardo Gonzalez Tulian",
   "license": "MIT",
+  "dependencies": {
+    "@joi/date": "^2.1.1",
+    "dotenv": "^16.6.1",
+    "express": "^5.2.1",
+    "joi": "^18.2.1",
+    "mongoose": "^8.4.1",
+    "swagger-jsdoc": "^5.0.1",
+    "swagger-ui-express": "^5.0.1"
+  },
   "devDependencies": {
     "nodemon": "^3.1.10"
   }
