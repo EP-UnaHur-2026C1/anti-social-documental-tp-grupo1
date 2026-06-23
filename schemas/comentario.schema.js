@@ -14,10 +14,12 @@ const comentarioSchema = Joi.object({
         }),
     fecha: Joi.date().iso().required(),
     esVisible: Joi.boolean().default(true),
-    postId: Joi.number().integer().required().messages({
-        "any.required": "El ID del post es obligatorio"
+    idPost: Joi.string().hex().length(24).required().messages({
+        "any.required": "El ID del post es obligatorio",
+        "string.hex": "El ID del post no tiene un formato válido"
     }),
-    usuarioId: Joi.number().integer().required().messages({
-        "any.required": "El ID del usuario es obligatorio"
+    idUsuario: Joi.string().hex().length(24).required().messages({
+        "any.required": "El ID del usuario es obligatorio",
+        "string.hex": "El ID del usuario no tiene un formato válido"
     })
 })
