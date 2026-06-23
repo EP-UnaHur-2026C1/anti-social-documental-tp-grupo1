@@ -43,5 +43,16 @@ usuarioSchema.set("toJSON", {
   }
 });
 
+usuarioSchema.pre("find", function () {
+  this.where({ deletedAt: null });
+});
+usuarioSchema.pre("findOne", function () {
+  this.where({ deletedAt: null });
+});
+usuarioSchema.pre("countDocuments", function () {
+  this.where({ deletedAt: null });
+});
+
+
 const Usuario = mongoose.model("Usuario", usuarioSchema);
 module.exports = Usuario;

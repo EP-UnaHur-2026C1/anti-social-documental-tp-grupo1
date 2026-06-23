@@ -7,6 +7,7 @@ const comentarioSchema = new Schema({
     required: [true, "El texto del comentario es obligatorio"],
     minlength: [5, "Debe tener al menos 5 caracteres"],
     maxlength: [500, "Debe tener como máximo 500 caracteres"],
+    deletedAt: { type: Date, default: null },
     trim: true
   },
   fecha: {
