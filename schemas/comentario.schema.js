@@ -23,3 +23,5 @@ const comentarioSchema = Joi.object({
         "string.hex": "El ID del usuario no tiene un formato válido"
     })
 })
+
+module.exports = comentarioSchema;
