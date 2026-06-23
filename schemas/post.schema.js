@@ -6,10 +6,12 @@ const postSchema = Joi.object({
         "any.required": "La descripción del post es obligatoria",
     }),
     tags: Joi.array()
-        .items(Joi.number().integer().messages({
-            "string.empty": "Los tags no pueden estar vacíos",
-        }))
-        .optional(),
+    .items(Joi.string().hex().length(24).messages({
+        "string.empty": "Los tags no pueden estar vacíos",
+        "string.hex": "El formato del tag no es un ObjectId válido",
+        "string.length": "El ID del tag debe tener exactamente 24 caracteres"
+    }))
+    .optional(),
 
     fecha: Joi.string().optional(),
     idUsuario: Joi.string().hex().length(24).required().messages({

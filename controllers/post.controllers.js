@@ -3,9 +3,9 @@ const { Post, PostImagen, Usuario, Tag } = require("../models")
 const obtenerPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-    .populate("idUsuario", "nickName")
-    .populate("comentarios", "texto")
-    .populate("tags", "nombre");
+      .populate("idUsuario", "nickName")
+      .populate("comentarios", "texto")
+      .populate("tags", "nombre");
 
     res.status(200).json(posts);
   } catch (error) {
@@ -22,28 +22,22 @@ const crearPost = async (req, res) => {
   try {
     const { texto, fecha, idUsuario, tags, imagenes } = req.body;
 
+    const imagenesFormat = imagenes && imagenes.length > 0
+      ? imagenes.map(url => ({ url }))
+      : [];
+
     const post = await Post.create({
       texto,
       fecha,
       idUsuario,
+      tags,
+      imagenes: imagenesFormat
     });
 
-    if (imagenes && imagenes.length > 0) {
-      for (const url of imagenes) {
-        await PostImagen.create({
-          url,
-          idPost: post.idPost,
-        });
-      }
-    }
 
-    if (tags && tags.length > 0) {
-      await post.addTags(tags);
-    }
-
-    const postCreado = await Post.findById(post.idPost)
-    .populate("idUsuario", "nickName")
-    .populate("tags", "nombre");
+    const postCreado = await Post.findById(post._id)
+      .populate("idUsuario", "nickName")
+      .populate("tags", "nombre");
 
     res.status(201).json({
       mensaje: "Post creado correctamente",
@@ -60,16 +54,16 @@ const actualizarPost = async (req, res) => {
     const { texto, tags } = req.body;
     const { id } = req.params;
     const post = await Post.findByIdAndUpdate(id, req.body, {
-        new: true,
-        runValidators: true,
+      new: true,
+      runValidators: true,
     });
     if (!post) {
-            return res.status(404).json({ message: "Post no encontrado" });
-        }
-    
+      return res.status(404).json({ message: "Post no encontrado" });
+    }
+
     res.status(200).json({
       mensaje: "Post actualizado correctamente",
-      post: postActualizado,
+      post: post,
     });
   } catch (error) {
     console.log(error);
@@ -85,7 +79,7 @@ const eliminarPost = async (req, res) => {
     const { id } = req.params
     const postEliminado = await Post.findByIdAndDelete(id)
     if (!postEliminado) {
-        return res.status(404).json({ message: "Post no encontrado" })
+      return res.status(404).json({ message: "Post no encontrado" })
     }
     res.status(200).json({ message: "Post eliminado" })
   } catch (error) {
