@@ -16,22 +16,8 @@ const obtenerComentarios = async (req, res) => {
 }
 
 const obtenerComentario = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const comentario = await Comentario.findById(id)
-            .populate("idUsuario", "nickName")
-            .populate("idPost", "texto")
-            .select("-createdAt -updatedAt -__v");
-        if (!comentario) {
-            return res.status(404).json({ message: "Comentario no encontrado" });
-        }
-        res.status(200).json(comentario);
-    } catch (error) {
-        res.status(500).json({
-            message: "Error al obtener el comentario",
-            error: error.message,
-        });
-    }
+    const comentario = req.comentario;
+    res.status(200).json(comentario);
 }
 
 const crearComentario = async (req, res) => {
