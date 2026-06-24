@@ -15,8 +15,11 @@ const obtenerPostImagen = async (req, res) => {
 
 const crearPostImagen = async (req, res) => {
   try {
-    const { url, post } = req.body;
-    const imagen = await PostImagen.create({ url, post });
+    const { url, idPost } = req.body;
+    const imagen = await PostImagen.create({ url, idPost });
+    await Post.findByIdAndUpdate(idPost, {
+      $push: { imagenes: imagen._id }
+    });
     res.status(201).json(imagen);
   } catch (error) {
     res.status(500).json({ error: error.message });

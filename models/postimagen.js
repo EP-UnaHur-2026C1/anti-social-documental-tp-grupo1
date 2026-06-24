@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const postImagenSchema = new mongoose.Schema(
   {
     url: { type: String, required: true },
-    post: {
+    idPost: {
       type: mongoose.Types.ObjectId,
       ref: "Post",
       required: true,

@@ -1,14 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const imagenSchema = new Schema({
-  url: {
-    type: String,
-    required: [true, "La URL de la imagen es obligatoria"],
-    trim: true
-  }
-});
-
 
 const postSchema = new Schema({
   texto: {
@@ -31,11 +23,14 @@ const postSchema = new Schema({
       ref: "Tag"
     }
   ],
-  imagenes: [imagenSchema],
+  imagenes: [{
+    type: Schema.Types.ObjectId,
+    ref: "PostImagen"
+  }],
   comentarios: [{
-      type: Schema.Types.ObjectId,
-      ref: "Comentario"
-    }]
+    type: Schema.Types.ObjectId,
+    ref: "Comentario"
+  }]
 });
 
 postSchema.set("toJSON", {

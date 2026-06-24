@@ -1,4 +1,4 @@
-const postImagenSchema = require("../schemas/postimagen.schema");
+const postImagenSchema = require("../schemas/postImagen.schema");
 
 const validarDatosPostImagen = (req, res, next) => {
   const { error } = postImagenSchema.validate(req.body, { abortEarly: false });
