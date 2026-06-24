@@ -6,9 +6,11 @@ const postImagenSchema = Joi.object({
     "string.empty": "La URL de la imagen no puede estar vacía",
     "any.required": "La URL de la imagen es obligatoria",
   }),
-  idPost: Joi.number().integer().required().messages({
-    "any.required": "El ID del post asociado es obligatorio",
-  }),
+  idPost: Joi.string().hex().length(24).required().messages({
+    "string.hex": "El ID del post no tiene un formato válido",
+    "string.length": "El ID del post debe tener exactamente 24 caracteres",
+    "any.required": "El ID del post es obligatorio"
+  })
 });
 
 module.exports = postImagenSchema;
