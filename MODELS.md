@@ -6,7 +6,7 @@ Este documento describe la estructura en formato JSON de los documentos y la def
 
 ## Convenciones y Buenas Prácticas de Mongoose Aplicadas
 * **Uso de ObjectIds y `ref`**: Para relaciones referenciadas (`idUsuario`, `tags`), se utiliza `mongoose.Schema.Types.ObjectId` con su respectiva propiedad `ref`.
-* **Subdocumentos (Embeds)**: Los comentarios (`Comentario`) y las imágenes (`PostImagen`) se modelan como sub-esquemas embebidos directamente en el esquema de `Post` para optimizar consultas de lectura y eliminación.
+* **Relaciones referenciadas**: Todas las relaciones entre colecciones (`idUsuario`, `tags`, `imagenes`, `comentarios`, `idPost`) se modelan mediante `ObjectId` con `ref`, manteniendo los documentos en colecciones separadas para favorecer la independencia y escalabilidad.
 * **Timestamps**: Se activa `{ timestamps: true }` en colecciones principales para generar y actualizar de manera automática los campos `createdAt` y `updatedAt`.
 * **Transformación toJSON**: Se configura el método `toJSON` para eliminar el campo de control `__v` que genera Mongoose por defecto, tal como se implementó en el proyecto `fsociety404`.
 
@@ -30,6 +30,7 @@ Representa a los usuarios registrados en la plataforma. Maneja las relaciones de
   "seguidos": [
     "667362c4e4c16f2c88d8b102"
   ],
+  "deletedAt": null,
   "createdAt": "2026-06-20T03:00:00.000Z",
   "updatedAt": "2026-06-20T03:05:00.000Z"
 }
@@ -66,7 +67,11 @@ const usuarioSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "Usuario"
       }
-    ]
+    ],
+    deletedAt: {
+      type: Date,
+      default: null
+    }
   },
   {
     timestamps: true
@@ -78,13 +83,24 @@ usuarioSchema.set("toJSON", {
     delete ret.__v;
   }
 });
+
+// Soft-delete: filtrar documentos eliminados en consultas
+usuarioSchema.pre("find", function () {
+  this.where({ deletedAt: null });
+});
+usuarioSchema.pre("findOne", function () {
+  this.where({ deletedAt: null });
+});
+usuarioSchema.pre("countDocuments", function () {
+  this.where({ deletedAt: null });
+});
 ```
 
 ---
 
 ## 2. Colección: `posts` (Post)
 
-Publicación realizada por un usuario. Este esquema embebe los esquemas de comentarios y de imágenes. Las etiquetas (`tags`) se mantienen referenciadas.
+Publicación realizada por un usuario. Las imágenes, comentarios y etiquetas se almacenan en colecciones separadas y se relacionan mediante referencias (`ObjectId`).
 
 ### Estructura de Documento JSON
 ```json
@@ -97,65 +113,17 @@ Publicación realizada por un usuario. Este esquema embebe los esquemas de comen
     "667363e0e4c16f2c88d8b110"
   ],
   "imagenes": [
-    {
-      "_id": "66736340e4c16f2c88d8b106",
-      "url": "https://servidor.com/imagenes/post1.jpg"
-    }
+    "66736340e4c16f2c88d8b106"
   ],
   "comentarios": [
-    {
-      "_id": "6673641ce4c16f2c88d8b120",
-      "texto": "¡Buenísimo el posteo, Juan!",
-      "fecha": "2026-06-20T03:15:00.000Z",
-      "esVisible": true,
-      "idUsuario": "667362c4e4c16f2c88d8b102"
-    }
+    "6673641ce4c16f2c88d8b120"
   ]
 }
 ```
 
-### Definición de Esquemas en Mongoose (Subdocumentos y Principal)
-
-#### Esquema de Imagen (`imagenSchema`)
+### Definición de Esquema en Mongoose
 ```javascript
-const imagenSchema = new mongoose.Schema({
-  url: {
-    type: String,
-    required: [true, "La URL de la imagen es obligatoria"],
-    trim: true
-  }
-});
-```
-
-#### Esquema de Comentario (`comentarioSchema`)
-```javascript
-const comentarioSchema = new mongoose.Schema({
-  texto: {
-    type: String,
-    required: [true, "El texto del comentario es obligatorio"],
-    minlength: [5, "Debe tener al menos 5 caracteres"],
-    maxlength: [500, "Debe tener como máximo 500 caracteres"],
-    trim: true
-  },
-  fecha: {
-    type: Date,
-    default: Date.now
-  },
-  esVisible: {
-    type: Boolean,
-    default: true
-  },
-  idUsuario: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Usuario",
-    required: [true, "El autor del comentario es obligatorio"]
-  }
-});
-```
-
-#### Esquema Principal del Post (`postSchema`)
-```javascript
-const postSchema = new mongoose.Schema({
+const postSchema = new Schema({
   texto: {
     type: String,
     required: [true, "El texto de la publicación es obligatorio"],
@@ -166,18 +134,24 @@ const postSchema = new mongoose.Schema({
     default: Date.now
   },
   idUsuario: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Usuario",
     required: [true, "El creador del post es obligatorio"]
   },
   tags: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Tag"
     }
   ],
-  imagenes: [imagenSchema],
-  comentarios: [comentarioSchema]
+  imagenes: [{
+    type: Schema.Types.ObjectId,
+    ref: "PostImagen"
+  }],
+  comentarios: [{
+    type: Schema.Types.ObjectId,
+    ref: "Comentario"
+  }]
 });
 
 postSchema.set("toJSON", {
@@ -224,4 +198,103 @@ tagSchema.set("toJSON", {
     delete ret.__v;
   }
 });
+
+---
+
+## 4. Colección: `postimagenes` (PostImagen)
+
+Imagen asociada a una publicación. Se almacena en una colección independiente y se referencia desde el post mediante `ObjectId`.
+
+### Estructura de Documento JSON
+```json
+{
+  "id": "66736340e4c16f2c88d8b106",
+  "url": "https://servidor.com/imagenes/post1.jpg",
+  "idPost": "66736340e4c16f2c88d8b105",
+  "createdAt": "2026-06-20T03:10:00.000Z",
+  "updatedAt": "2026-06-20T03:10:00.000Z"
+}
+```
+
+Nota: el campo `_id` se transforma a `id` en la respuesta JSON (ver `toJSON`).
+
+### Definición de Esquema en Mongoose
+```javascript
+const postImagenSchema = new mongoose.Schema(
+  {
+    url: { type: String, required: true },
+    idPost: {
+      type: mongoose.Types.ObjectId,
+      ref: "Post",
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      transform: (doc, ret) => {
+        ret.id = ret._id.toString();
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
+    },
+  }
+);
+```
+
+---
+
+## 5. Colección: `comentarios` (Comentario)
+
+Comentario que un usuario realiza sobre una publicación. Se almacena en una colección independiente con referencia al usuario autor y al post asociado.
+
+### Estructura de Documento JSON
+```json
+{
+  "_id": "6673641ce4c16f2c88d8b120",
+  "texto": "¡Buenísimo el posteo, Juan!",
+  "fecha": "2026-06-20T03:15:00.000Z",
+  "esVisible": true,
+  "idUsuario": "667362c4e4c16f2c88d8b102",
+  "idPost": "66736340e4c16f2c88d8b105"
+}
+```
+
+### Definición de Esquema en Mongoose
+```javascript
+const comentarioSchema = new Schema({
+  texto: {
+    type: String,
+    required: [true, "El texto del comentario es obligatorio"],
+    minlength: [5, "Debe tener al menos 5 caracteres"],
+    maxlength: [500, "Debe tener como máximo 500 caracteres"],
+    trim: true
+  },
+  fecha: {
+    type: Date,
+    default: Date.now
+  },
+  esVisible: {
+    type: Boolean,
+    default: true
+  },
+  idUsuario: {
+    type: Schema.Types.ObjectId,
+    ref: "Usuario",
+    required: [true, "El autor del comentario es obligatorio"]
+  },
+  idPost: {
+    type: Schema.Types.ObjectId,
+    ref: "Post",
+    required: [true, "El post al que pertenece el comentario es obligatorio"]
+  }
+});
+
+comentarioSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    delete ret.__v;
+  }
+});
+```
 ```

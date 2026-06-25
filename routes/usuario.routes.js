@@ -62,12 +62,12 @@ const {
   obtenerUsuarioPorId,
   actualizarUsuario,
   eliminarUsuario,
-  // seguirUsuario
+  seguirUsuario,
 } = require("../controllers/usuario.controllers");
 
 const { validarUsuarioExiste } = require("../middlewares/validarUsuarioExiste");
 const { validarUsuario } = require("../middlewares/validarDatosUsuario");
-// const { validarSeguir } = require("../middlewares/validarSeguir");
+const { validarSeguir } = require("../middlewares/validarSeguir");
 const { validarObjectId } = require("../middlewares/validarObjectId");
 
 /**
@@ -284,6 +284,6 @@ router.delete("/:id", validarObjectId(), validarUsuarioExiste, eliminarUsuario);
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/:id/seguir", validarObjectId(), validarUsuarioExiste);
+router.post("/:id/seguir", validarObjectId(), validarUsuarioExiste, validarSeguir, seguirUsuario);
 
 module.exports = router;
