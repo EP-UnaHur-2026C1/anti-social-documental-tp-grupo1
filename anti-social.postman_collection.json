@@ -1,0 +1,403 @@
+{
+  "info": {
+    "name": "Anti Social Documental API",
+    "description": "Coleccion de endpoints para la API de la red social Anti Social (UnaHur).\n\nRequiere variable:\n  {{base_url}} = http://localhost:3000",
+    "schema": "https://raw.githubusercontent.com/postmanlabs/postman-collection/v2.1.0/schema/collection.json",
+    "_exporter_id": "opencode-agent"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Usuarios",
+      "description": "Operaciones CRUD sobre usuarios",
+      "item": [
+        {
+          "name": "Crear usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nickName\": \"juanperez\",\n  \"email\": \"juan@example.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/usuarios",
+              "host": ["{{base_url}}"],
+              "path": ["usuarios"]
+            }
+          }
+        },
+        {
+          "name": "Obtener todos los usuarios",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/usuarios",
+              "host": ["{{base_url}}"],
+              "path": ["usuarios"]
+            }
+          }
+        },
+        {
+          "name": "Obtener usuario por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/usuarios/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["usuarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nickName\": \"juanperez_edit\",\n  \"email\": \"juan_nuevo@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/usuarios/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["usuarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar usuario (soft-delete)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/usuarios/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["usuarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        },
+        {
+          "name": "Seguir usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usuarioId\": \"6732b2c3d4e5f6a7b8c9d0e1\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/usuarios/6732a1b2c3d4e5f6a7b8c9d0/seguir",
+              "host": ["{{base_url}}"],
+              "path": ["usuarios", "6732a1b2c3d4e5f6a7b8c9d0", "seguir"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Posts",
+      "description": "Operaciones CRUD sobre publicaciones",
+      "item": [
+        {
+          "name": "Crear post",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"texto\": \"Hello world! Este es mi primer post\",\n  \"idUsuario\": \"6732a1b2c3d4e5f6a7b8c9d0\",\n  \"tags\": [\"6732c3d4e5f6a7b8c9d0e1f2\"],\n  \"imagenes\": [\"https://ejemplo.com/imagen1.jpg\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/posts",
+              "host": ["{{base_url}}"],
+              "path": ["posts"]
+            }
+          }
+        },
+        {
+          "name": "Obtener todos los posts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/posts",
+              "host": ["{{base_url}}"],
+              "path": ["posts"]
+            }
+          }
+        },
+        {
+          "name": "Obtener post por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/posts/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["posts", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar post",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"texto\": \"Texto actualizado del post\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/posts/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["posts", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar post",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/posts/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["posts", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tags",
+      "description": "Operaciones CRUD sobre etiquetas",
+      "item": [
+        {
+          "name": "Crear tag",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"tecnologia\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tags",
+              "host": ["{{base_url}}"],
+              "path": ["tags"]
+            }
+          }
+        },
+        {
+          "name": "Obtener todos los tags",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/tags",
+              "host": ["{{base_url}}"],
+              "path": ["tags"]
+            }
+          }
+        },
+        {
+          "name": "Obtener tag por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/tags/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["tags", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar tag",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"ciencia\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tags/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["tags", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar tag",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/tags/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["tags", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "PostImagenes",
+      "description": "Operaciones CRUD sobre imagenes asociadas a posts",
+      "item": [
+        {
+          "name": "Agregar imagen a post",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://ejemplo.com/imagen.jpg\",\n  \"idPost\": \"6732a1b2c3d4e5f6a7b8c9d0\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/postimagenes",
+              "host": ["{{base_url}}"],
+              "path": ["postimagenes"]
+            }
+          }
+        },
+        {
+          "name": "Obtener todas las imagenes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/postimagenes",
+              "host": ["{{base_url}}"],
+              "path": ["postimagenes"]
+            }
+          }
+        },
+        {
+          "name": "Obtener imagen por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/postimagenes/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["postimagenes", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar imagen",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/postimagenes/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["postimagenes", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comentarios",
+      "description": "Operaciones CRUD sobre comentarios de publicaciones",
+      "item": [
+        {
+          "name": "Crear comentario",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"texto\": \"Excelente publicacion, me encanto!\",\n  \"fecha\": \"2026-06-25T12:00:00.000Z\",\n  \"esVisible\": true,\n  \"idPost\": \"6732a1b2c3d4e5f6a7b8c9d0\",\n  \"idUsuario\": \"6732b2c3d4e5f6a7b8c9d0e1\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/comentarios",
+              "host": ["{{base_url}}"],
+              "path": ["comentarios"]
+            }
+          }
+        },
+        {
+          "name": "Obtener todos los comentarios",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/comentarios",
+              "host": ["{{base_url}}"],
+              "path": ["comentarios"]
+            }
+          }
+        },
+        {
+          "name": "Obtener comentario por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/comentarios/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["comentarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar comentario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"texto\": \"Comentario editado, mucho mejor ahora!\",\n  \"fecha\": \"2026-06-25T12:00:00.000Z\",\n  \"idPost\": \"6732a1b2c3d4e5f6a7b8c9d0\",\n  \"idUsuario\": \"6732b2c3d4e5f6a7b8c9d0e1\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/comentarios/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["comentarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        },
+        {
+          "name": "Ocultar comentario por antiguedad",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{base_url}}/comentarios/6732a1b2c3d4e5f6a7b8c9d0/visibilidad",
+              "host": ["{{base_url}}"],
+              "path": ["comentarios", "6732a1b2c3d4e5f6a7b8c9d0", "visibilidad"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar comentario",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/comentarios/6732a1b2c3d4e5f6a7b8c9d0",
+              "host": ["{{base_url}}"],
+              "path": ["comentarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
