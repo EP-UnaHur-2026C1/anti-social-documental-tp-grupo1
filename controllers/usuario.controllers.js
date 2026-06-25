@@ -1,4 +1,4 @@
-const { Usuario, UsuarioAUsuario } = require("../models");
+const { Usuario } = require("../models");
 
 const crearUsuario = async (req, res) => {
   try {
@@ -59,30 +59,38 @@ const eliminarUsuario = async (req, res) => {
   }
 };
 
-/*
-
 const seguirUsuario = async (req, res) => {
   try {
     const usuario = req.usuario;
     const { usuarioId } = req.body;
+
     if (usuarioId === usuario._id.toString()) {
-      return res.status(400).json({ message: "No podes seguirte a vos mismo" });
+      return res.status(400).json({ mensaje: "No puedes seguirte a ti mismo" });
     }
+
     const usuarioASeguir = await Usuario.findById(usuarioId);
     if (!usuarioASeguir) {
-      return res.status(404).json({ message: "Error: El usuario a seguir no existe" });
+      return res.status(404).json({ mensaje: "El usuario a seguir no existe" });
     }
-    await UsuarioAUsuario.create({ seguidor: usuario._id, seguido: usuarioASeguir._id });
-    res.status(200).json({ message: "Usuario seguido correctamente" });
+
+    if (!usuario.seguidos.includes(usuarioId)) {
+      usuario.seguidos.push(usuarioId);
+      await usuario.save();
+    }
+
+    if (!usuarioASeguir.seguidores.includes(usuario._id)) {
+      usuarioASeguir.seguidores.push(usuario._id);
+      await usuarioASeguir.save();
+    }
+
+    res.status(200).json({ mensaje: "Usuario seguido correctamente" });
   } catch (error) {
     res.status(500).json({
-      message: "Error al seguir usuario",
+      mensaje: "Error al seguir usuario",
       error: error.message,
     });
   }
 };
-
-*/
 
 module.exports = {
   crearUsuario,
@@ -90,5 +98,5 @@ module.exports = {
   obtenerUsuarioPorId,
   actualizarUsuario,
   eliminarUsuario,
-  // seguirUsuario,
+  seguirUsuario,
 };

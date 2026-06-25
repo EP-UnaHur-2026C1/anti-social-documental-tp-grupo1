@@ -8,9 +8,8 @@ const PostImagen = require("./postimagen");
 
 module.exports = {
   Usuario,
-  // Tag,
+  Tag,
   Post,
   Comentario,
   PostImagen,
-  
 };

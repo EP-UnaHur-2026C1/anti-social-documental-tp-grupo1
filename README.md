@@ -61,7 +61,7 @@ Los sponsors definieron los siguientes nombres y descripciones para las entidade
 
 4. **Documentación**
 
-   - Generar la documentación de la API utilizando **Swagger (formato YAML)**, incluyendo todos los endpoints definidos.
+   - Generar la documentación de la API utilizando **Swagger (OpenAPI)**, incluyendo todos los endpoints definidos.
 
 5. **Colecciones de Prueba**
 
@@ -69,6 +69,6 @@ Los sponsors definieron los siguientes nombres y descripciones para las entidade
 
 # Bonus
 
-- Hace el upload de las imganes que se asocian a un POST que lo guarden en una carpeta de imagenes dentro del servidor web.
+<!-- Fuera de alcance: upload de imágenes a carpeta del servidor (MVP solo almacena URLs) -->
 - ¿Cómo modelarías que un usuario pueda "seguir" a otros usuarios, y a su vez ser seguido por muchos? Followers
 - Con la información de los post no varia muy seguido que estrategias podrian utilizar la que la información no sea constantemente consultada desde la base de datos.
