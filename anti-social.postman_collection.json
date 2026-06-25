@@ -1,28 +1,24 @@
 {
   "info": {
     "name": "Anti Social Documental API",
-    "description": "Coleccion de endpoints para la API de la red social Anti Social (UnaHur).\n\nRequiere variable:\n  {{base_url}} = http://localhost:3000",
-    "schema": "https://raw.githubusercontent.com/postmanlabs/postman-collection/v2.1.0/schema/collection.json",
-    "_exporter_id": "opencode-agent"
+    "description": "Coleccion de endpoints para la API de la red social Anti Social (UnaHur).\n\nRequiere variable {{base_url}} configurada en http://localhost:3000",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:3000",
-      "type": "string"
-    }
-  ],
   "item": [
     {
       "name": "Usuarios",
-      "description": "Operaciones CRUD sobre usuarios",
       "item": [
         {
           "name": "Crear usuario",
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -30,8 +26,12 @@
             },
             "url": {
               "raw": "{{base_url}}/usuarios",
-              "host": ["{{base_url}}"],
-              "path": ["usuarios"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios"
+              ]
             }
           }
         },
@@ -41,8 +41,12 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/usuarios",
-              "host": ["{{base_url}}"],
-              "path": ["usuarios"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios"
+              ]
             }
           }
         },
@@ -51,9 +55,20 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{base_url}}/usuarios/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["usuarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/usuarios/{{usuario_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios",
+                "{{usuario_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "usuario_id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -62,16 +77,32 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"nickName\": \"juanperez_edit\",\n  \"email\": \"juan_nuevo@example.com\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/usuarios/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["usuarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/usuarios/{{usuario_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios",
+                "{{usuario_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "usuario_id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -80,9 +111,20 @@
           "request": {
             "method": "DELETE",
             "url": {
-              "raw": "{{base_url}}/usuarios/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["usuarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/usuarios/{{usuario_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios",
+                "{{usuario_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "usuario_id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -91,91 +133,33 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"usuarioId\": \"6732b2c3d4e5f6a7b8c9d0e1\"\n}"
+              "raw": "{\n  \"usuarioId\": \"{{seguir_id}}\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/usuarios/6732a1b2c3d4e5f6a7b8c9d0/seguir",
-              "host": ["{{base_url}}"],
-              "path": ["usuarios", "6732a1b2c3d4e5f6a7b8c9d0", "seguir"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Posts",
-      "description": "Operaciones CRUD sobre publicaciones",
-      "item": [
-        {
-          "name": "Crear post",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"texto\": \"Hello world! Este es mi primer post\",\n  \"idUsuario\": \"6732a1b2c3d4e5f6a7b8c9d0\",\n  \"tags\": [\"6732c3d4e5f6a7b8c9d0e1f2\"],\n  \"imagenes\": [\"https://ejemplo.com/imagen1.jpg\"]\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/posts",
-              "host": ["{{base_url}}"],
-              "path": ["posts"]
-            }
-          }
-        },
-        {
-          "name": "Obtener todos los posts",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{base_url}}/posts",
-              "host": ["{{base_url}}"],
-              "path": ["posts"]
-            }
-          }
-        },
-        {
-          "name": "Obtener post por ID",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{base_url}}/posts/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["posts", "6732a1b2c3d4e5f6a7b8c9d0"]
-            }
-          }
-        },
-        {
-          "name": "Actualizar post",
-          "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"texto\": \"Texto actualizado del post\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/posts/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["posts", "6732a1b2c3d4e5f6a7b8c9d0"]
-            }
-          }
-        },
-        {
-          "name": "Eliminar post",
-          "request": {
-            "method": "DELETE",
-            "url": {
-              "raw": "{{base_url}}/posts/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["posts", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/usuarios/{{usuario_id}}/seguir",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios",
+                "{{usuario_id}}",
+                "seguir"
+              ],
+              "variable": [
+                {
+                  "key": "usuario_id",
+                  "value": ""
+                }
+              ]
             }
           }
         }
@@ -183,14 +167,18 @@
     },
     {
       "name": "Tags",
-      "description": "Operaciones CRUD sobre etiquetas",
       "item": [
         {
           "name": "Crear tag",
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -198,8 +186,12 @@
             },
             "url": {
               "raw": "{{base_url}}/tags",
-              "host": ["{{base_url}}"],
-              "path": ["tags"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tags"
+              ]
             }
           }
         },
@@ -209,8 +201,12 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/tags",
-              "host": ["{{base_url}}"],
-              "path": ["tags"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tags"
+              ]
             }
           }
         },
@@ -219,9 +215,20 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{base_url}}/tags/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["tags", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/tags/{{tag_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tags",
+                "{{tag_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "tag_id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -230,16 +237,32 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"nombre\": \"ciencia\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/tags/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["tags", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/tags/{{tag_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tags",
+                "{{tag_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "tag_id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -248,9 +271,145 @@
           "request": {
             "method": "DELETE",
             "url": {
-              "raw": "{{base_url}}/tags/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["tags", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/tags/{{tag_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "tags",
+                "{{tag_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "tag_id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "Crear post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"texto\": \"Hello world! Este es mi primer post\",\n  \"idUsuario\": \"{{usuario_id}}\",\n  \"tags\": [\"{{tag_id}}\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/posts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener todos los posts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/posts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener post por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/posts/{{post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "{{post_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "post_id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar post",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"texto\": \"Texto actualizado del post\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/posts/{{post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "{{post_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "post_id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar post",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/posts/{{post_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "{{post_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "post_id",
+                  "value": ""
+                }
+              ]
             }
           }
         }
@@ -258,23 +417,31 @@
     },
     {
       "name": "PostImagenes",
-      "description": "Operaciones CRUD sobre imagenes asociadas a posts",
       "item": [
         {
           "name": "Agregar imagen a post",
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"url\": \"https://ejemplo.com/imagen.jpg\",\n  \"idPost\": \"6732a1b2c3d4e5f6a7b8c9d0\"\n}"
+              "raw": "{\n  \"url\": \"https://ejemplo.com/imagen.jpg\",\n  \"idPost\": \"{{post_id}}\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/postimagenes",
-              "host": ["{{base_url}}"],
-              "path": ["postimagenes"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "postimagenes"
+              ]
             }
           }
         },
@@ -284,8 +451,12 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/postimagenes",
-              "host": ["{{base_url}}"],
-              "path": ["postimagenes"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "postimagenes"
+              ]
             }
           }
         },
@@ -294,9 +465,20 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{base_url}}/postimagenes/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["postimagenes", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/postimagenes/{{imagen_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "postimagenes",
+                "{{imagen_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "imagen_id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -305,9 +487,20 @@
           "request": {
             "method": "DELETE",
             "url": {
-              "raw": "{{base_url}}/postimagenes/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["postimagenes", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/postimagenes/{{imagen_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "postimagenes",
+                "{{imagen_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "imagen_id",
+                  "value": ""
+                }
+              ]
             }
           }
         }
@@ -315,23 +508,31 @@
     },
     {
       "name": "Comentarios",
-      "description": "Operaciones CRUD sobre comentarios de publicaciones",
       "item": [
         {
           "name": "Crear comentario",
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"texto\": \"Excelente publicacion, me encanto!\",\n  \"fecha\": \"2026-06-25T12:00:00.000Z\",\n  \"esVisible\": true,\n  \"idPost\": \"6732a1b2c3d4e5f6a7b8c9d0\",\n  \"idUsuario\": \"6732b2c3d4e5f6a7b8c9d0e1\"\n}"
+              "raw": "{\n  \"texto\": \"Excelente publicacion, me encanto!\",\n  \"fecha\": \"2026-06-25T12:00:00.000Z\",\n  \"esVisible\": true,\n  \"idPost\": \"{{post_id}}\",\n  \"idUsuario\": \"{{usuario_id}}\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/comentarios",
-              "host": ["{{base_url}}"],
-              "path": ["comentarios"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "comentarios"
+              ]
             }
           }
         },
@@ -341,8 +542,12 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/comentarios",
-              "host": ["{{base_url}}"],
-              "path": ["comentarios"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "comentarios"
+              ]
             }
           }
         },
@@ -351,9 +556,20 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{base_url}}/comentarios/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["comentarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/comentarios/{{comentario_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "comentarios",
+                "{{comentario_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "comentario_id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -362,16 +578,32 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"texto\": \"Comentario editado, mucho mejor ahora!\",\n  \"fecha\": \"2026-06-25T12:00:00.000Z\",\n  \"idPost\": \"6732a1b2c3d4e5f6a7b8c9d0\",\n  \"idUsuario\": \"6732b2c3d4e5f6a7b8c9d0e1\"\n}"
+              "raw": "{\n  \"texto\": \"Comentario editado, mucho mejor ahora!\",\n  \"fecha\": \"2026-06-25T12:00:00.000Z\",\n  \"idPost\": \"{{post_id}}\",\n  \"idUsuario\": \"{{usuario_id}}\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/comentarios/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["comentarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/comentarios/{{comentario_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "comentarios",
+                "{{comentario_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "comentario_id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -380,9 +612,21 @@
           "request": {
             "method": "PATCH",
             "url": {
-              "raw": "{{base_url}}/comentarios/6732a1b2c3d4e5f6a7b8c9d0/visibilidad",
-              "host": ["{{base_url}}"],
-              "path": ["comentarios", "6732a1b2c3d4e5f6a7b8c9d0", "visibilidad"]
+              "raw": "{{base_url}}/comentarios/{{comentario_id}}/visibilidad",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "comentarios",
+                "{{comentario_id}}",
+                "visibilidad"
+              ],
+              "variable": [
+                {
+                  "key": "comentario_id",
+                  "value": ""
+                }
+              ]
             }
           }
         },
@@ -391,13 +635,61 @@
           "request": {
             "method": "DELETE",
             "url": {
-              "raw": "{{base_url}}/comentarios/6732a1b2c3d4e5f6a7b8c9d0",
-              "host": ["{{base_url}}"],
-              "path": ["comentarios", "6732a1b2c3d4e5f6a7b8c9d0"]
+              "raw": "{{base_url}}/comentarios/{{comentario_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "comentarios",
+                "{{comentario_id}}"
+              ],
+              "variable": [
+                {
+                  "key": "comentario_id",
+                  "value": ""
+                }
+              ]
             }
           }
         }
       ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "usuario_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "post_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tag_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "imagen_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "comentario_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "seguir_id",
+      "value": "",
+      "type": "string"
     }
   ]
 }
