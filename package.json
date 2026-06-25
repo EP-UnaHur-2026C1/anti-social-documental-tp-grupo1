@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "nodemon src/main.js",
     "start": "node src/main.js",
+    "seed": "node seeders/seed.js",
+    "clean": "node seeders/clean.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gerardo Gonzalez Tulian",
