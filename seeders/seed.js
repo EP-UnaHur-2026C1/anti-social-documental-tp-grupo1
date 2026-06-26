@@ -33,13 +33,13 @@ const seed = async () => {
     const alice = await Usuario.create({
       nickName: "alice",
       email: "alice@test.com",
-      password: "alice",
+      password: "passwordAlice123",
     });
 
     const bob = await Usuario.create({
       nickName: "bob",
       email: "bob@test.com",
-      password: "bob",
+      password: "passwordBob123",
     });
 
     // Seguirse mutuamente
