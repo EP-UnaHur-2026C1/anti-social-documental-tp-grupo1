@@ -1,8 +1,10 @@
 {
   "info": {
+    "_postman_id": "efbd5f90-351f-4fe1-872c-cb3d823a9d74",
     "name": "Anti Social Documental API",
-    "description": "Coleccion de endpoints para la API de la red social Anti Social (UnaHur).\n\nRequiere variable {{base_url}} configurada en http://localhost:3000",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "description": "Coleccion de endpoints para la API de la red social Anti Social (UnaHur).\n\nRequiere variable {{base_url}} configurada en http://localhost:3000\n\nSeed estatico (seeders/seed.js):\n  - alice / {{seed_password_alice}}\n  - bob / {{seed_password_bob}}\n\nEjecutar GET de listas para auto-asignar IDs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54489340"
   },
   "item": [
     {
@@ -10,12 +12,27 @@
       "item": [
         {
           "name": "Crear usuario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Auto-asignar ID del usuario creado\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"usuario_id\", jsonData._id);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
                 "value": "application/json",
                 "type": "text"
               }
@@ -33,12 +50,33 @@
                 "usuarios"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Obtener todos los usuarios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Auto-asignar IDs del primer usuario\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.length > 0) {",
+                  "        pm.collectionVariables.set(\"usuario_id\", jsonData[0]._id);",
+                  "    }",
+                  "    if (jsonData.length > 1) {",
+                  "        pm.collectionVariables.set(\"seguir_id\", jsonData[1]._id);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/usuarios",
               "host": [
@@ -48,12 +86,14 @@
                 "usuarios"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Obtener usuario por ID",
           "request": {
             "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/usuarios/{{usuario_id}}",
               "host": [
@@ -70,7 +110,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Actualizar usuario",
@@ -79,14 +120,13 @@
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
                 "value": "application/json",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nickName\": \"juanperez_edit\",\n  \"email\": \"juan_nuevo@example.com\"\n}"
+              "raw": "{\n  \"nickName\": \"{{seed_nick}}\",\n  \"email\": \"{{seed_email}}\",\n  \"password\": \"{{seed_password_alice}}\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/usuarios/{{usuario_id}}",
@@ -104,12 +144,23 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Eliminar usuario (soft-delete)",
           "request": {
             "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{base_url}}/usuarios/{{usuario_id}}",
               "host": [
@@ -126,7 +177,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Seguir usuario",
@@ -135,7 +187,6 @@
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
                 "value": "application/json",
                 "type": "text"
               }
@@ -161,7 +212,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -170,19 +222,34 @@
       "item": [
         {
           "name": "Crear tag",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Auto-asignar ID del tag creado\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"tag_id\", jsonData._id);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
                 "value": "application/json",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre\": \"tecnologia\"\n}"
+              "raw": "{\n  \"nombre\": \"matemática\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/tags",
@@ -193,12 +260,30 @@
                 "tags"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Obtener todos los tags",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Auto-asignar ID del primer tag\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.length > 0) {",
+                  "        pm.collectionVariables.set(\"tag_id\", jsonData[0]._id);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/tags",
               "host": [
@@ -208,12 +293,14 @@
                 "tags"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Obtener tag por ID",
           "request": {
             "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/tags/{{tag_id}}",
               "host": [
@@ -230,7 +317,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Actualizar tag",
@@ -239,7 +327,6 @@
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
                 "value": "application/json",
                 "type": "text"
               }
@@ -264,12 +351,14 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Eliminar tag",
           "request": {
             "method": "DELETE",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/tags/{{tag_id}}",
               "host": [
@@ -286,7 +375,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -295,12 +385,25 @@
       "item": [
         {
           "name": "Crear post",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Auto-asignar ID del post creado\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"post_id\", jsonData._id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
                 "value": "application/json",
                 "type": "text"
               }
@@ -318,12 +421,30 @@
                 "posts"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Obtener todos los posts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Auto-asignar ID del primer post\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.length > 0) {",
+                  "        pm.collectionVariables.set(\"post_id\", jsonData[0]._id);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/posts",
               "host": [
@@ -333,12 +454,14 @@
                 "posts"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Obtener post por ID",
           "request": {
             "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/posts/{{post_id}}",
               "host": [
@@ -355,7 +478,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Actualizar post",
@@ -364,14 +488,13 @@
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
                 "value": "application/json",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"texto\": \"Texto actualizado del post\"\n}"
+              "raw": "{\n  \"texto\": \"Texto actualizado del post\",\n  \"idUsuario\": \"{{usuario_id}}\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/posts/{{post_id}}",
@@ -389,12 +512,14 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Eliminar post",
           "request": {
             "method": "DELETE",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/posts/{{post_id}}",
               "host": [
@@ -411,7 +536,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -420,12 +546,26 @@
       "item": [
         {
           "name": "Agregar imagen a post",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "",
+                  "pm.collectionVariables.set(\"imagen_id\", json.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
                 "value": "application/json",
                 "type": "text"
               }
@@ -443,12 +583,27 @@
                 "postimagenes"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Obtener todas las imagenes",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/postimagenes",
               "host": [
@@ -458,12 +613,26 @@
                 "postimagenes"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Obtener imagen por ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
             "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{base_url}}/postimagenes/{{imagen_id}}",
               "host": [
@@ -480,12 +649,14 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Eliminar imagen",
           "request": {
             "method": "DELETE",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/postimagenes/{{imagen_id}}",
               "host": [
@@ -502,7 +673,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -511,12 +683,25 @@
       "item": [
         {
           "name": "Crear comentario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Auto-asignar ID del comentario creado\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"comentario_id\", jsonData._id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
                 "value": "application/json",
                 "type": "text"
               }
@@ -534,12 +719,30 @@
                 "comentarios"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Obtener todos los comentarios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Auto-asignar ID del primer comentario\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.length > 0) {",
+                  "        pm.collectionVariables.set(\"comentario_id\", jsonData[0]._id);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/comentarios",
               "host": [
@@ -549,12 +752,14 @@
                 "comentarios"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Obtener comentario por ID",
           "request": {
             "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/comentarios/{{comentario_id}}",
               "host": [
@@ -571,7 +776,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Actualizar comentario",
@@ -580,14 +786,13 @@
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
                 "value": "application/json",
                 "type": "text"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"texto\": \"Comentario editado, mucho mejor ahora!\",\n  \"fecha\": \"2026-06-25T12:00:00.000Z\",\n  \"idPost\": \"{{post_id}}\",\n  \"idUsuario\": \"{{usuario_id}}\"\n}"
+              "raw": "{\n  \"texto\": \"Comentario editado, mucho mejor ahora!\",\n  \"fecha\": \"2025-06-25T12:00:00.000Z\",\n  \"idPost\": \"{{post_id}}\",\n  \"idUsuario\": \"{{usuario_id}}\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/comentarios/{{comentario_id}}",
@@ -605,12 +810,14 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Ocultar comentario por antiguedad",
           "request": {
             "method": "PATCH",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/comentarios/{{comentario_id}}/visibilidad",
               "host": [
@@ -628,12 +835,14 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Eliminar comentario",
           "request": {
             "method": "DELETE",
+            "header": [],
             "url": {
               "raw": "{{base_url}}/comentarios/{{comentario_id}}",
               "host": [
@@ -650,46 +859,84 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         }
       ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
     }
   ],
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:3000",
-      "type": "string"
+      "value": "http://localhost:3000"
     },
     {
       "key": "usuario_id",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "post_id",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "tag_id",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "imagen_id",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "comentario_id",
-      "value": "",
-      "type": "string"
+      "value": ""
     },
     {
       "key": "seguir_id",
-      "value": "",
-      "type": "string"
+      "value": ""
+    },
+    {
+      "key": "seed_nick",
+      "value": "alice"
+    },
+    {
+      "key": "seed_email",
+      "value": "alice@test.com"
+    },
+    {
+      "key": "seed_password_alice",
+      "value": "passwordAlice123"
+    },
+    {
+      "key": "seed_nick_bob",
+      "value": "bob"
+    },
+    {
+      "key": "seed_email_bob",
+      "value": "bob@test.com"
     }
   ]
 }
